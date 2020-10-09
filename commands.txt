@@ -1,0 +1,7 @@
+help - show help and commands
+status - show bot status
+toggle_muted- change muted or not status
+lastlog - show 5 last messages responsibles
+tmp_size - size of tmp folder
+tmp_delete - delete files in tmp folder
+stop - stops play in progress

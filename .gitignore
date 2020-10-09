@@ -1,3 +1,11 @@
+tmp/
+TEST_FILES/
+keys.py
+log.txt
+*.url
+*.png
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
