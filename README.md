@@ -1,5 +1,10 @@
 # SpeakerTelegramBot
-Telegram bot that plays any audio/voice you send on the speakers!
+**Telegram bot that plays any audio/voice you send in the speakers!**
+<br>
+For obvious reasons, special commands are present to mute/unmute the bot and to stop the current  audio playing. <br>
+Other simple commands can manage the folder of the data downloaded, getting the size and deleting the content remotely. (Just sending a secret message to the bot) <br>
+All the active actions are logged in a text file (muting, cleaning folder, sending audio). With another special command is possible to retrieve the responsible for the last five actions.
+
 
 ### Dependencies
 
@@ -38,7 +43,7 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 
 ## Changelog
 
-**Version 1.0** - 07 August 2020
+**Version 1.0** - 07 September 2020
 
 ## Authors
 
