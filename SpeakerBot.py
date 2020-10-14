@@ -207,14 +207,17 @@ def echo_all(message):
     sender = message.from_user.first_name
     #log
     #log(sender + " sent a message at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    print(sender + " sent a message TTS at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S')) #not logged
     #reply the same message
     #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
     #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
-    print('text-to-speech!')
     global language
     text = sender + " dice: " + message.text
+    print('generationg audio...')
     speech = gTTS(text = text, lang = language, slow = False)
+    print('saving audio...')
     speech.save("text.mp3")
+    print('OK, Playing!')
     global player
     player = vlc.MediaPlayer("./text.mp3")
     player.play()
