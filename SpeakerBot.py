@@ -18,7 +18,9 @@ import vlc
 #pydub si incasina e a volte non parte, o non si ferma
 #from playsound import playsound #playsound è semplice ma non stoppabile e una sopra l'altra, e fa dei click
 #import pygame # pygame  può stopparsi,ma distorce
-
+#text-to-speech
+from gtts import gTTS
+language = "it"
 
 token = keys.telegram_bot_token
 
@@ -44,7 +46,7 @@ def log(str_passed):
 #when it starts or someone asks help
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-	bot.reply_to(message, "Hi, I'm " + bot.get_me().first_name + ", send me any audio (music or voice) (max 20 MB) and I will play it in the kitchen of Bocca4 \nYou can use commands:\n /help to see this \n /status to see status, like muted or not \n")
+    bot.reply_to(message, "Hi, I'm " + bot.get_me().first_name + ", send me any audio (music or voice) (max 20 MB) and I will play it in the kitchen of Bocca4 \nYou can use commands:\n /help to see this \n /status to see status, like muted or not \n")
 
 #asking the status of the bot
 @bot.message_handler(commands=['status'])
@@ -179,7 +181,7 @@ def handle_docs_voice(message):
         open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
         #CONVERSION
         print('Ok, conversion...')
-        bot.edit_message_text("voice converting",chat_id=message.chat.id, message_id=bot_message_id)
+        #bot.edit_message_text("voice converting",chat_id=message.chat.id, message_id=bot_message_id)
         sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, format="ogg") #it's .oga but ogg works
         sound.export("./tmp/"+filename+".mp3", format="mp3")
         #deleting old file to leave only the mp3
@@ -189,7 +191,7 @@ def handle_docs_voice(message):
             print("The file does not exist")
         #PLAY
         print('OK, Playing!')
-        bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
+        #bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
         global player
         player = vlc.MediaPlayer("./tmp/"+filename+".mp3")
         player.play()
@@ -208,12 +210,17 @@ def echo_all(message):
     #reply the same message
     #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
     #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
+    print('text-to-speech!')
+    global language
+    text = sender + " dice: " + message.text
+    speech = gTTS(text = text, lang = language, slow = False)
+    speech.save("text.mp3")
 
 #main loop
 for x in range(6):
-	try:
-		#POLLING
-		bot.polling()
-	except Exception:
-        print("error - attempt " + str(x) + " in 20 seconds\n\n" )
-		time.sleep(20)
+    try:
+        #POLLING
+        bot.polling()
+    except Exception:
+        print("error - attempt " + str(x) + " in 20 seconds\n\n")
+        time.sleep(20)

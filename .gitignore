@@ -4,6 +4,7 @@ keys.py
 log.txt
 *.url
 *.png
+*.mp3
 
 
 # Byte-compiled / optimized / DLL files
