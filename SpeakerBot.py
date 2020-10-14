@@ -215,6 +215,9 @@ def echo_all(message):
     text = sender + " dice: " + message.text
     speech = gTTS(text = text, lang = language, slow = False)
     speech.save("text.mp3")
+    global player
+    player = vlc.MediaPlayer("./text.mp3")
+    player.play()
 
 #main loop
 for x in range(6):
