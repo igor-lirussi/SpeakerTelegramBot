@@ -26,8 +26,10 @@ token = keys.telegram_bot_token
 
 bot = telebot.TeleBot(token)
 player = vlc.MediaPlayer()
-#starting status
+#starting status of voice/audio playing
 muted = False
+#starting status of Text-to-speech
+tts = True
 
 #log function
 def log(str_passed):
@@ -52,7 +54,8 @@ def send_welcome(message):
 @bot.message_handler(commands=['status'])
 def send_status(message):
     global muted
-    bot.reply_to(message, "Bot is working\nBot is" + (" " if muted else " NOT ") +"MUTED")
+    global tts
+    bot.reply_to(message, "Bot is working\nBot is" + (" " if muted else " NOT ") +"MUTED\nTTS is" + (" " if tss else " NOT ") +" ENABLED")
 
 #change muted or not
 @bot.message_handler(commands=['toggle_muted'])
@@ -204,23 +207,26 @@ def handle_docs_voice(message):
 #handling OTHER MESSAGES
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    sender = message.from_user.first_name
-    #log
-    #log(sender + " sent a message at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-    print(sender + " sent a message TTS at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S')) #not logged
-    #reply the same message
-    #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
-    #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
-    global language
-    text = sender + " dice: " + message.text
-    print('generationg audio...')
-    speech = gTTS(text = text, lang = language, slow = False)
-    print('saving audio...')
-    speech.save("text.mp3")
-    print('OK, Playing!')
-    global player
-    player = vlc.MediaPlayer("./text.mp3")
-    player.play()
+    global muted
+    global tts
+    if not muted and tts:
+        sender = message.from_user.first_name
+        #log
+        #log(sender + " sent a message at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        print(sender + " sent a message TTS at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S')) #not logged
+        #reply the same message
+        #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
+        #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
+        global language
+        text = sender + " dice: " + message.text
+        print('generationg audio...')
+        speech = gTTS(text = text, lang = language, slow = False)
+        print('saving audio...')
+        speech.save("text.mp3")
+        print('OK, Playing!')
+        global player
+        player = vlc.MediaPlayer("./text.mp3")
+        player.play()
 
 #main loop
 for x in range(6):
