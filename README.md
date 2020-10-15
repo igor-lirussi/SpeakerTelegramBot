@@ -52,3 +52,7 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 ## Authors
 
 * **Igor Lirussi** @ University of Bologna
+
+## License
+
+This project is licensed a License - see the [LICENSE](LICENSE) file for details
