@@ -231,8 +231,10 @@ def echo_all(message):
 #main loop
 for x in range(6):
     try:
+        print("##### BOT STARTED #####")
         #POLLING
         bot.polling()
     except Exception:
-        print("error - attempt " + str(x) + " in 20 seconds\n\n")
+        print(Exception)
+        print("#attempt " + str(x+1) + "/6 in 20 seconds\n\n")
         time.sleep(20)
