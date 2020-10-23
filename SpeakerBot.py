@@ -30,6 +30,7 @@ player = vlc.MediaPlayer()
 muted = False
 #starting status of Text-to-speech
 tts = True
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 #log function
 def log(str_passed):
@@ -41,7 +42,6 @@ def log(str_passed):
             filelog.write('\n')
         filelog.write(str_passed)
         filelog.close()
-    return
 
 
 ############## COMMANDS FOR THE BOT ##################
@@ -64,7 +64,7 @@ def set_mute(message):
     muted = not muted
     bot.reply_to(message, "Bot is" + (" " if muted else " NOT ") +"MUTED")
     sender = message.from_user.first_name
-    log(sender + (" " if muted else " NOT ") +"MUTED the bot at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    log(sender + (" " if muted else " NOT ") +"MUTED the bot at "+ datetime.now().strftime(DATE_FORMAT))
 
 #asks the bot for the last 5 people sent audio/voices
 @bot.message_handler(commands=['lastlog'])
@@ -74,7 +74,6 @@ def send_log(message):
         for line in (filelog.readlines() [-5:]):
             lastlog+= line
     bot.reply_to(message, "Last messages are: \n" + lastlog)
-    sender = message.from_user.first_name
 
 #size of the temporary folder that contains all the audio received
 @bot.message_handler(commands=['tmp_size'])
@@ -95,7 +94,7 @@ def send_del(message):
     os.mkdir(mydir)
     bot.reply_to(message, "Files in folder tmp deleted")
     sender = message.from_user.first_name
-    log(sender + " DELETED TMP at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    log(sender + " DELETED TMP at "+ datetime.now().strftime(DATE_FORMAT)))
 
 #stops the last audio playing
 @bot.message_handler(commands=['stop'])
@@ -104,7 +103,7 @@ def send_size(message):
     player.stop()
     bot.reply_to(message, "Stopped")
     sender = message.from_user.first_name
-    log(sender + " STOPPED at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    log(sender + " STOPPED at "+ datetime.now().strftime(DATE_FORMAT))
 
 
 ############## MESSAGES HANDLED ##################
@@ -115,7 +114,7 @@ def handle_docs_audio(message):
     if not muted:
         sender = message.from_user.first_name
         #log msg RECEIVED
-        log(sender + " sent a audio at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        log(sender + " sent a audio at "+ datetime.now().strftime(DATE_FORMAT))
         bot.send_message(message.chat.id,"audio received")
         bot_message_id=message.message_id+1
         #retrieve file link
@@ -130,7 +129,7 @@ def handle_docs_audio(message):
             #bot.edit_message_text("audio downloading",chat_id=message.chat.id, message_id=bot_message_id)
             #bot.send_message(message.chat.id,"audio downloading")
             myfile = requests.get(link)
-            filename=datetime.now().strftime('%Y-%m-%d_%H-%M-%S')+"-"+sender
+            filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
             fileformat = link.split('.')[-1]
             open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
             #CONVERSION
@@ -165,7 +164,7 @@ def handle_docs_voice(message):
     if not muted:
         sender = message.from_user.first_name
         #log msg RECEIVED
-        log(sender + " sent a voice at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        log(sender + " sent a voice at "+ datetime.now().strftime(DATE_FORMAT))
         #bot.send_message(message.chat.id,"voice received")
         bot_message_id=message.message_id+1
         #retrieve file link
@@ -179,7 +178,7 @@ def handle_docs_voice(message):
         #bot.edit_mesassage_text("voice downloading",chat_id=message.chat.id, message_id=bot_message_id)
         #bot.send_message(message.chat.id,"voice downloading")
         myfile = requests.get(link)
-        filename=datetime.now().strftime('%Y-%m-%d_%H-%M-%S')+"-"+sender
+        filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
         fileformat = link.split('.')[-1]
         open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
         #CONVERSION
@@ -213,7 +212,7 @@ def echo_all(message):
         sender = message.from_user.first_name
         #log
         #log(sender + " sent a message at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-        print(sender + " sent a message TTS at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S')) #not logged
+        print(sender + " sent a message TTS at "+ datetime.now().strftime(DATE_FORMAT)) #not logged
         #reply the same message
         #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
         #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
