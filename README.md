@@ -28,6 +28,10 @@ sudo apt-get install libasound2-dev
 
 pip install python-vlc
 
+**for text-to-speech:**
+
+pip install gTTS
+
 ### Handling VLC errors
 [WinError 126] ...
 resolved with adding folder where libvlc.dll (i.e. your VLC player) is located to system environment - path variable
@@ -48,3 +52,7 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 ## Authors
 
 * **Igor Lirussi** @ University of Bologna
+
+## License
+
+This project is licensed a License - see the [LICENSE](LICENSE) file for details
