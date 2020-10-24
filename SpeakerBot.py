@@ -94,7 +94,7 @@ def send_del(message):
     os.mkdir(mydir)
     bot.reply_to(message, "Files in folder tmp deleted")
     sender = message.from_user.first_name
-    log(sender + " DELETED TMP at "+ datetime.now().strftime(DATE_FORMAT)))
+    log(sender + " DELETED TMP at "+ datetime.now().strftime(DATE_FORMAT))
 
 #stops the last audio playing
 @bot.message_handler(commands=['stop'])

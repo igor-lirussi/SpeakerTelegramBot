@@ -48,7 +48,7 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 
 ## Changelog
 
-**Version 2.0** - 23 October 2020
+**Version 2.0** - 23 October 2020 <br>
 **Version 1.0** - 07 September 2020
 
 ## Authors
@@ -57,4 +57,4 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 
 ## License
 
-This project is licensed a License - see the [LICENSE](LICENSE) file for details
+This project is under a License - see the [LICENSE](LICENSE) file for details
