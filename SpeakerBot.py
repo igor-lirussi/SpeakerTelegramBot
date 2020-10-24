@@ -30,7 +30,7 @@ player = vlc.MediaPlayer()
 muted = False
 #starting status of Text-to-speech
 tts = True
-DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+DATE_FORMAT = '%Y-%m-%d_%H-%M-%S'
 
 #log function
 def log(str_passed):
@@ -115,44 +115,32 @@ def handle_docs_audio(message):
         sender = message.from_user.first_name
         #log msg RECEIVED
         log(sender + " sent a audio at "+ datetime.now().strftime(DATE_FORMAT))
-        bot.send_message(message.chat.id,"audio received")
-        bot_message_id=message.message_id+1
+        bot_message=bot.send_message(message.chat.id,"audio received...")
+        bot_message_id=bot_message.message_id
         #retrieve file link
         file_id = message.audio.file_id
         file = bot.get_file(file_id)
-        try:
-            file_path = file.file_path
-            global token
-            link = "https://api.telegram.org/file/bot"+token+"/"+file_path
-            #DOWNLOAD link
-            print("Download of: " + link)
-            #bot.edit_message_text("audio downloading",chat_id=message.chat.id, message_id=bot_message_id)
-            #bot.send_message(message.chat.id,"audio downloading")
-            myfile = requests.get(link)
-            filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
-            fileformat = link.split('.')[-1]
-            open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
-            #CONVERSION
-            #print('Ok, conversion...')
-            #bot.send_message(message.chat.id,"audio converting")
-            #sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, format=fileformat)
-            #sound.export("./tmp/"+filename+".mp3", format="mp3")
-            #deleting old file to leave only the mp3
-            #os.remove("./tmp/"+filename+"."+fileformat)
-            #PLAY
-            print('OK, Playing!')
-            #bot.edit_message_text("audio played!",chat_id=message.chat.id, message_id=bot_message_id)
-            bot.send_message(message.chat.id,"audio playing!")
-            #sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, fileformat)
-            #play(sound)
-            #pygame.mixer.init()
-            #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
-            #pygame.mixer.music.play()
-            global player
-            player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
-            player.play()
-        except ApiTelegramException as e:
-            bot.send_message(message.chat.id,"*Error* " +file.description)
+        file_path = file.file_path
+        global token
+        link = "https://api.telegram.org/file/bot"+token+"/"+file_path
+        #DOWNLOAD link
+        print("-OK, Download of: " + link)
+        bot.edit_message_text("audio downloading...",chat_id=message.chat.id, message_id=bot_message_id)
+        myfile = requests.get(link)
+        filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
+        fileformat = link.split('.')[-1]
+        open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
+        #PLAY
+        print('-OK, Playing!')
+        bot.edit_message_text("audio played!",chat_id=message.chat.id, message_id=bot_message_id)
+        #sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, fileformat)
+        #play(sound)
+        #pygame.mixer.init()
+        #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
+        #pygame.mixer.music.play()
+        global player
+        player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
+        player.play()
     else:
         bot.send_message(message.chat.id,"Someone did a mess, \nthe BOT is MUTED")
 
@@ -165,8 +153,8 @@ def handle_docs_voice(message):
         sender = message.from_user.first_name
         #log msg RECEIVED
         log(sender + " sent a voice at "+ datetime.now().strftime(DATE_FORMAT))
-        #bot.send_message(message.chat.id,"voice received")
-        bot_message_id=message.message_id+1
+        bot_message=bot.send_message(message.chat.id,"voice received...")
+        bot_message_id=bot_message.message_id
         #retrieve file link
         file_id = message.voice.file_id
         file = bot.get_file(file_id)
@@ -174,16 +162,15 @@ def handle_docs_voice(message):
         global token
         link = "https://api.telegram.org/file/bot"+token+"/"+file_path
         #DOWNLOAD link
-        print("Download of: " + link)
-        #bot.edit_mesassage_text("voice downloading",chat_id=message.chat.id, message_id=bot_message_id)
-        #bot.send_message(message.chat.id,"voice downloading")
+        print("-OK, Download of: " + link)
+        bot.edit_message_text("voice downloading...",chat_id=message.chat.id, message_id=bot_message_id)
         myfile = requests.get(link)
         filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
         fileformat = link.split('.')[-1]
         open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
         #CONVERSION
-        print('Ok, conversion...')
-        #bot.edit_message_text("voice converting",chat_id=message.chat.id, message_id=bot_message_id)
+        print('-OK, Conversion...')
+        bot.edit_message_text("voice converting...",chat_id=message.chat.id, message_id=bot_message_id)
         sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, format="ogg") #it's .oga but ogg works
         sound.export("./tmp/"+filename+".mp3", format="mp3")
         #deleting old file to leave only the mp3
@@ -192,8 +179,8 @@ def handle_docs_voice(message):
         else:
             print("The file does not exist")
         #PLAY
-        print('OK, Playing!')
-        #bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
+        print('-OK, Playing!')
+        bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
         global player
         player = vlc.MediaPlayer("./tmp/"+filename+".mp3")
         player.play()
@@ -211,18 +198,17 @@ def echo_all(message):
     if not muted and tts:
         sender = message.from_user.first_name
         #log
-        #log(sender + " sent a message at "+ datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         print(sender + " sent a message TTS at "+ datetime.now().strftime(DATE_FORMAT)) #not logged
-        #reply the same message
-        #bot.send_message(message.chat.id, " From " + sender + " -> " + message.text)
-        #bot.send_message(message.chat.id, "send me a voice and I will play it, why texting me???")
         global language
         text = sender + " dice: " + message.text
-        print('generationg audio...')
+        #generating
+        print('-OK, Generating audio...')
         speech = gTTS(text = text, lang = language, slow = False)
-        print('saving audio...')
+        #saving
+        print('-OK, Saving audio...')
         speech.save("text.mp3")
-        print('OK, Playing!')
+        #playing
+        print('-OK, Playing!')
         global player
         player = vlc.MediaPlayer("./text.mp3")
         player.play()
