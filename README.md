@@ -45,16 +45,16 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 
 ## Built With
 
-  * Python 3.7.7
+*  Python 3.7.7
 
 ## Changelog
 
-  * **Version 2.0** - 23 October 2020 <br>
-  * **Version 1.0** - 07 September 2020
+*  **Version 2.0** - 23 October 2020 <br>
+*  **Version 1.0** - 07 September 2020
 
 ## Authors
 
-  * **Igor Lirussi** @ University of Bologna
+*  **Igor Lirussi** @ University of Bologna
 
 ## License
 

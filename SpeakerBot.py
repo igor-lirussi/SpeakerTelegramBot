@@ -111,35 +111,38 @@ def stop_media(message):
 def handle_docs_audio(message):
     global muted
     if not muted:
-        sender = message.from_user.first_name
-        #log msg RECEIVED
-        log(sender + " sent a audio at "+ datetime.now().strftime(DATE_FORMAT))
-        bot_message=bot.send_message(message.chat.id,"audio received...")
-        bot_message_id=bot_message.message_id
-        #retrieve file link
-        file_id = message.audio.file_id
-        file = bot.get_file(file_id)
-        file_path = file.file_path
-        global token
-        link = "https://api.telegram.org/file/bot"+token+"/"+file_path
-        #DOWNLOAD link
-        print("-OK, Download of: " + link)
-        bot.edit_message_text("audio downloading...",chat_id=message.chat.id, message_id=bot_message_id)
-        myfile = requests.get(link)
-        filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
-        fileformat = link.split('.')[-1]
-        open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
-        #PLAY
-        print('-OK, Playing!')
-        bot.edit_message_text("audio played!",chat_id=message.chat.id, message_id=bot_message_id)
-        #sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, fileformat)
-        #play(sound)
-        #pygame.mixer.init()
-        #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
-        #pygame.mixer.music.play()
-        global player
-        player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
-        player.play()
+        try:
+            sender = message.from_user.first_name
+            #log msg RECEIVED
+            log(sender + " sent an audio at "+ datetime.now().strftime(DATE_FORMAT))
+            bot_message=bot.send_message(message.chat.id,"audio received...")
+            bot_message_id=bot_message.message_id
+            #retrieve file link
+            file_id = message.audio.file_id
+            file = bot.get_file(file_id)
+            file_path = file.file_path
+            global token
+            link = "https://api.telegram.org/file/bot"+token+"/"+file_path
+            #DOWNLOAD link
+            print("-OK, Download of: " + link)
+            bot.edit_message_text("audio downloading...",chat_id=message.chat.id, message_id=bot_message_id)
+            myfile = requests.get(link)
+            filename=datetime.now().strftime(DATE_FORMAT)+"-"+sender
+            fileformat = link.split('.')[-1]
+            open('./tmp/'+filename+"."+fileformat, 'wb').write(myfile.content)
+            #PLAY
+            print('-OK, Playing!')
+            bot.edit_message_text("audio played!",chat_id=message.chat.id, message_id=bot_message_id)
+            #sound = AudioSegment.from_file("./tmp/"+filename+"."+fileformat, fileformat)
+            #play(sound)
+            #pygame.mixer.init()
+            #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
+            #pygame.mixer.music.play()
+            global player
+            player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
+            player.play()
+        except Exception as e:
+            bot.send_message(message.chat.id,"*Error* audio discarded")
     else:
         bot.send_message(message.chat.id,"Someone did a mess, \nthe BOT is MUTED")
 
@@ -210,12 +213,16 @@ def echo_all(message):
         player.play()
 
 #main loop
+newpath = r'./tmp'
+if not os.path.exists(newpath):
+    os.makedirs(newpath)
+    print("INFO: temporary folder created\n")
 for x in range(6):
     try:
         print("##### BOT STARTED #####")
         #POLLING
         bot.polling()
-    except Exception:
-        print(Exception)
+    except Exception as err:
+        print(err)
         print("#attempt " + str(x+1) + "/6 in 20 seconds\n\n")
         time.sleep(20)
