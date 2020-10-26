@@ -8,13 +8,13 @@ All the active actions are logged in a text file (muting, cleaning folder, sendi
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e816ec7faa0f47e88649e051a1ceecbe)](https://app.codacy.com/gh/igor-lirussi/SpeakerTelegramBot?utm_source=github.com&utm_medium=referral&utm_content=igor-lirussi/SpeakerTelegramBot&utm_campaign=Badge_Grade)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=igor-lirussi_SpeakerTelegramBot&metric=security_rating)](https://sonarcloud.io/dashboard?id=igor-lirussi_SpeakerTelegramBot)
 
-### Dependencies
+## Dependencies
 
 pip install pyTelegramBotAPI
 
 pip install pydub
 
-**that requires:**
+*that requires:*
 
 pip install simpleaudio
 
@@ -30,31 +30,31 @@ sudo apt-get install libasound2-dev
 
 pip install python-vlc
 
-**for text-to-speech:**
+*for text-to-speech:*
 
 pip install gTTS
 
 ### Handling VLC errors
-[WinError 126] ...
+[ WinError 126 ] ...
 resolved with adding folder where libvlc.dll (i.e. your VLC player) is located to system environment - path variable
 
-[WinError 193] surfaces -
+[ WinError 193 ] surfaces -
 resolved by uninstalling and reinstalling VLC 64bit for Windows
 
-[VLC_NetworkStreaming_BUG] VLC/lua/playlist/youtube.luac requires to be replaced with youtube.lua file
+[ VLC_NetworkStreaming_BUG ] VLC/lua/playlist/youtube.luac requires to be replaced with youtube.lua file
 
 ## Built With
 
-* Python 3.7.7
+  * Python 3.7.7
 
 ## Changelog
 
-**Version 2.0** - 23 October 2020 <br>
-**Version 1.0** - 07 September 2020
+  * **Version 2.0** - 23 October 2020 <br>
+  * **Version 1.0** - 07 September 2020
 
 ## Authors
 
-* **Igor Lirussi** @ University of Bologna
+  * **Igor Lirussi** @ University of Bologna
 
 ## License
 

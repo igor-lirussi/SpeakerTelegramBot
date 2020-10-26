@@ -3,7 +3,6 @@ import telebot
 import keys
 #to log
 from datetime import datetime
-import json
 import time
 #to delete files
 import os
@@ -11,7 +10,7 @@ import os
 import requests
 #for conversion
 from pydub import AudioSegment
-from pydub.playback import play
+#to play with pydub from pydub.playback import play
 #for playback
 import vlc
 #notes:
@@ -55,7 +54,7 @@ def send_welcome(message):
 def send_status(message):
     global muted
     global tts
-    bot.reply_to(message, "Bot is working\nBot is" + (" " if muted else " NOT ") +"MUTED\nTTS is" + (" " if tss else " NOT ") +" ENABLED")
+    bot.reply_to(message, "Bot is working\nBot is" + (" " if muted else " NOT ") +"MUTED\nTTS is" + (" " if tts else " NOT ") +" ENABLED")
 
 #change muted or not
 @bot.message_handler(commands=['toggle_muted'])
@@ -98,7 +97,7 @@ def send_del(message):
 
 #stops the last audio playing
 @bot.message_handler(commands=['stop'])
-def send_size(message):
+def stop_media(message):
     global player
     player.stop()
     bot.reply_to(message, "Stopped")
@@ -204,13 +203,10 @@ def echo_all(message):
         #generating
         print('-OK, Generating audio...')
         speech = gTTS(text = text, lang = language, slow = False)
-        #saving
-        print('-OK, Saving audio...')
-        speech.save("text.mp3")
         #playing
         print('-OK, Playing!')
         global player
-        player = vlc.MediaPlayer("./text.mp3")
+        player = vlc.MediaPlayer(speech.get_urls()[0])
         player.play()
 
 #main loop
