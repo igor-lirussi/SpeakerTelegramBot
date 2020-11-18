@@ -207,9 +207,15 @@ def echo_all(message):
         print('-OK, Generating audio...')
         speech = gTTS(text = text, lang = language, slow = False)
         #playing
-        print('-OK, Playing!')
         global player
-        player = vlc.MediaPlayer(speech.get_urls()[0])
+        direct_play=False #direct play is used to play faster from the url without saving on disk, it can create issues btw
+        if (direct_play):
+            player = vlc.MediaPlayer(speech.get_urls()[0])
+        else:
+            print('-OK, Saving audio...')
+            speech.save('tts.mp3')
+            player = vlc.MediaPlayer("./tts.mp3")
+        print('-OK, Playing!')
         player.play()
 
 #main loop

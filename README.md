@@ -49,6 +49,7 @@ resolved by uninstalling and reinstalling VLC 64bit for Windows
 
 ## Changelog
 
+*  **Version 2.1** - 18 November 2020 <br>
 *  **Version 2.0** - 23 October 2020 <br>
 *  **Version 1.0** - 07 September 2020
 
