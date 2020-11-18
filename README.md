@@ -35,27 +35,25 @@ pip install python-vlc
 pip install gTTS
 
 ### Handling VLC errors
-[ WinError 126 ] ...
-resolved with adding folder where libvlc.dll (i.e. your VLC player) is located to system environment - path variable
+`[ WinError 126 ] ...` resolved with adding folder where libvlc.dll (i.e. your VLC player) is located to system environment - path variable
 
-[ WinError 193 ] surfaces -
-resolved by uninstalling and reinstalling VLC 64bit for Windows
+`[ WinError 193 ] surfaces - ...` resolved by uninstalling and reinstalling VLC 64bit for Windows
 
-[ VLC_NetworkStreaming_BUG ] VLC/lua/playlist/youtube.luac requires to be replaced with youtube.lua file
+`[ VLC_NetworkStreaming_BUG ] ` VLC/lua/playlist/youtube.luac requires to be replaced with youtube.lua file
 
 ## Built With
 
-*  Python 3.7.7
+*   Python 3.7.7
 
 ## Changelog
 
-*  **Version 2.1** - 18 November 2020 <br>
-*  **Version 2.0** - 23 October 2020 <br>
-*  **Version 1.0** - 07 September 2020
+*   **Version 2.1** - 18 November 2020 <br>
+*   **Version 2.0** - 23 October 2020 <br>
+*   **Version 1.0** - 07 September 2020
 
 ## Authors
 
-*  **Igor Lirussi** @ University of Bologna
+*   **Igor Lirussi** @ University of Bologna
 
 ## License
 
