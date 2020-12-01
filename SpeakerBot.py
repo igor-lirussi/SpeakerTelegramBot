@@ -13,9 +13,9 @@ from pydub import AudioSegment
 #to play with pydub from pydub.playback import play
 
 #notes:
-#pydub si incasina e a volte non parte, o non si ferma
-#from playsound import playsound #playsound è semplice ma non stoppabile e una sopra l'altra, e fa dei click
-#import pygame # pygame  può stopparsi,ma distorce
+#pydub sometimes doesn't start
+#from playsound import playsound #playsound is simple, can't be stop, glitches
+#import pygame # pygame has distortions
 #text-to-speech
 from gtts import gTTS
 language = "it"
@@ -141,8 +141,8 @@ def handle_docs_audio(message):
             #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
             #pygame.mixer.music.play()
             play("./tmp/"+filename+"."+fileformat)#fast hack
-            
         except Exception as e:
+            print(e)
             bot.send_message(message.chat.id,"*Error* audio discarded")
     else:
         bot.send_message(message.chat.id,"Someone did a mess, \nthe BOT is MUTED")
@@ -184,9 +184,9 @@ def handle_docs_voice(message):
         #PLAY
         print('-OK, Playing!')
         bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
-        
+
         play("./tmp/"+filename+".mp3")
-        
+
         #send voice
         #voice = open('./tmp/voice.ogg', 'rb')
         #bot.send_voice(message.chat.id, voice)
@@ -208,7 +208,6 @@ def echo_all(message):
         print('-OK, Generating audio...')
         speech = gTTS(text = text, lang = language, slow = False)
         #playing
-        global player
         direct_play=False #direct play is used to play faster from the url without saving on disk, it can create issues btw
         if (direct_play):
             file = speech.get_urls()[0]

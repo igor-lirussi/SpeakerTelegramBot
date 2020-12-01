@@ -1,7 +1,7 @@
 # SpeakerTelegramBot
-**Telegram bot that plays any audio/voice you send in the speakers!**
+**Telegram bot that plays in the speakers any audio/voice/text you send!**
 <br>
-For obvious reasons, special commands are present to mute/unmute the bot and to stop the current  audio playing. <br>
+For obvious reasons, special commands are present to mute/unmute the bot and to stop the current audio playing. <br>
 Other simple commands can manage the folder of the data downloaded, getting the size and deleting the content remotely. (Just sending a secret message to the bot) <br>
 All the active actions are logged in a text file (muting, cleaning folder, sending audio). With another special command is possible to retrieve the responsible for the last five actions.
 
@@ -10,14 +10,14 @@ All the active actions are logged in a text file (muting, cleaning folder, sendi
 
 ## Dependencies
 
+ffmpeg
 mplayer
 pulseaudio
 
 ## Install (ubuntu)
 
-* clone in /home
-
-* ```./install.sh $pulseaudio-server-ip```
+*   clone in /home
+*   ```./install.sh $pulseaudio-server-ip```
 
 ## Built With
 
@@ -25,9 +25,10 @@ pulseaudio
 
 ## Changelog
 
+*   **Version 3.0** - 01 December 2020 - MPlayer used <br>
 *   **Version 2.1** - 18 November 2020 <br>
-*   **Version 2.0** - 23 October 2020 <br>
-*   **Version 1.0** - 07 September 2020
+*   **Version 2.0** - 23 October 2020 - introduced TTS <br>
+*   **Version 1.0** - 07 September 2020 - VLC Player used <br>
 
 ## Authors
 
