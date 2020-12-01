@@ -220,6 +220,7 @@ def echo_all(message):
 
 #main loop
 newpath = r'./tmp'
+os.chdir("/home/SpeakerTelegramBot")
 if not os.path.exists(newpath):
     os.makedirs(newpath)
     print("INFO: temporary folder created\n")
