@@ -24,7 +24,6 @@ language = "it"
 token = keys.telegram_bot_token
 
 bot = telebot.TeleBot(token)
-player = vlc.MediaPlayer()
 #starting status of voice/audio playing
 muted = False
 #starting status of Text-to-speech
@@ -104,6 +103,8 @@ def stop_media(message):
     sender = message.from_user.first_name
     log(sender + " STOPPED at "+ datetime.now().strftime(DATE_FORMAT))
 
+def play(file):
+    os.system("mplayer -ao pulse "+file)#fast hack
 
 ############## MESSAGES HANDLED ##################
 # Handles all sent AUDIO files
@@ -138,9 +139,8 @@ def handle_docs_audio(message):
             #pygame.mixer.init()
             #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
             #pygame.mixer.music.play()
-            global player
-            player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
-            player.play()
+            play("./tmp/"+filename+"."+fileformat)#fast hack
+            
         except Exception as e:
             bot.send_message(message.chat.id,"*Error* audio discarded")
     else:
@@ -183,9 +183,9 @@ def handle_docs_voice(message):
         #PLAY
         print('-OK, Playing!')
         bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
-        global player
-        player = vlc.MediaPlayer("./tmp/"+filename+".mp3")
-        player.play()
+        
+        play("./tmp/"+filename+".mp3")
+        
         #send voice
         #voice = open('./tmp/voice.ogg', 'rb')
         #bot.send_voice(message.chat.id, voice)
@@ -211,12 +211,13 @@ def echo_all(message):
         direct_play=False #direct play is used to play faster from the url without saving on disk, it can create issues btw
         if (direct_play):
             player = vlc.MediaPlayer(speech.get_urls()[0])
+            file = ""
         else:
             print('-OK, Saving audio...')
             speech.save('tts.mp3')
-            player = vlc.MediaPlayer("./tts.mp3")
+            file = "./tts.mp3"
         print('-OK, Playing!')
-        player.play()
+        play(file)
 
 #main loop
 newpath = r'./tmp'
