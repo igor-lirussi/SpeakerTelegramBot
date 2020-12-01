@@ -211,8 +211,7 @@ def echo_all(message):
         global player
         direct_play=False #direct play is used to play faster from the url without saving on disk, it can create issues btw
         if (direct_play):
-            player = vlc.MediaPlayer(speech.get_urls()[0])
-            file = ""
+            file = speech.get_urls()[0])
         else:
             print('-OK, Saving audio...')
             speech.save('tts.mp3')
