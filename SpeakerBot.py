@@ -11,8 +11,7 @@ import requests
 #for conversion
 from pydub import AudioSegment
 #to play with pydub from pydub.playback import play
-#for playback
-import vlc
+
 #notes:
 #pydub si incasina e a volte non parte, o non si ferma
 #from playsound import playsound #playsound è semplice ma non stoppabile e una sopra l'altra, e fa dei click
