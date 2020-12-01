@@ -10,7 +10,7 @@ Description=Telegram Speaker Service
 [Service]
 
 # Command to execute when the service is started
-ExecStart=/usr/bin/python3 /home/SpeakerBot.py
+ExecStart=/usr/bin/python3 /home/SpeakerTelegramBot/SpeakerBot.py
 
 # Disable Python's buffering of STDOUT and STDERR, so that output from the
 # service shows up immediately in systemd's logs
