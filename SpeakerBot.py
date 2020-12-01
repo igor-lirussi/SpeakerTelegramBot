@@ -40,6 +40,12 @@ def log(str_passed):
         filelog.write(str_passed)
         filelog.close()
 
+def play(file):
+    os.system("mplayer -ao pulse "+file)#fast hack
+
+def stop():
+    os.system("killall mplayer")
+
 
 ############## COMMANDS FOR THE BOT ##################
 #when it starts or someone asks help
@@ -96,14 +102,10 @@ def send_del(message):
 #stops the last audio playing
 @bot.message_handler(commands=['stop'])
 def stop_media(message):
-    global player
-    player.stop()
+    stop()
     bot.reply_to(message, "Stopped")
     sender = message.from_user.first_name
     log(sender + " STOPPED at "+ datetime.now().strftime(DATE_FORMAT))
-
-def play(file):
-    os.system("mplayer -ao pulse "+file)#fast hack
 
 ############## MESSAGES HANDLED ##################
 # Handles all sent AUDIO files
