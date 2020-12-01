@@ -10,40 +10,18 @@ All the active actions are logged in a text file (muting, cleaning folder, sendi
 
 ## Dependencies
 
-pip install pyTelegramBotAPI
+mplayer
+pulseaudio
 
-pip install pydub
+## Install (ubuntu)
 
-*that requires:*
+* clone in /home
 
-pip install simpleaudio
-
-sudo apt-get install ffmpeg
-
-sudo apt-get install python-dev
-
-sudo apt-get install python3-dev
-
-pip install setuptools
-
-sudo apt-get install libasound2-dev
-
-pip install python-vlc
-
-*for text-to-speech:*
-
-pip install gTTS
-
-### Handling VLC errors
-`[ WinError 126 ] ...` resolved with adding folder where libvlc.dll (i.e. your VLC player) is located to system environment - path variable
-
-`[ WinError 193 ] surfaces - ...` resolved by uninstalling and reinstalling VLC 64bit for Windows
-
-`[ VLC_NetworkStreaming_BUG ] ` VLC/lua/playlist/youtube.luac requires to be replaced with youtube.lua file
+* ```./install.sh $pulseaudio-server-ip```
 
 ## Built With
 
-*   Python 3.7.7
+*   Python 3.8
 
 ## Changelog
 

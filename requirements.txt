@@ -1,0 +1,4 @@
+requests==2.24.0
+pydub==0.24.1
+gTTS==2.2.1
+pyTelegramBotAPI==3.7.4

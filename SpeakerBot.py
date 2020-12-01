@@ -11,8 +11,7 @@ import requests
 #for conversion
 from pydub import AudioSegment
 #to play with pydub from pydub.playback import play
-#for playback
-import vlc
+
 #notes:
 #pydub si incasina e a volte non parte, o non si ferma
 #from playsound import playsound #playsound è semplice ma non stoppabile e una sopra l'altra, e fa dei click
@@ -24,7 +23,6 @@ language = "it"
 token = keys.telegram_bot_token
 
 bot = telebot.TeleBot(token)
-player = vlc.MediaPlayer()
 #starting status of voice/audio playing
 muted = False
 #starting status of Text-to-speech
@@ -41,6 +39,12 @@ def log(str_passed):
             filelog.write('\n')
         filelog.write(str_passed)
         filelog.close()
+
+def play(file):
+    os.system("mplayer -ao pulse "+file)#fast hack
+
+def stop():
+    os.system("killall mplayer")
 
 
 ############## COMMANDS FOR THE BOT ##################
@@ -98,12 +102,10 @@ def send_del(message):
 #stops the last audio playing
 @bot.message_handler(commands=['stop'])
 def stop_media(message):
-    global player
-    player.stop()
+    stop()
     bot.reply_to(message, "Stopped")
     sender = message.from_user.first_name
     log(sender + " STOPPED at "+ datetime.now().strftime(DATE_FORMAT))
-
 
 ############## MESSAGES HANDLED ##################
 # Handles all sent AUDIO files
@@ -138,9 +140,8 @@ def handle_docs_audio(message):
             #pygame.mixer.init()
             #pygame.mixer.music.load("./tmp/"+filename+"."+fileformat)
             #pygame.mixer.music.play()
-            global player
-            player = vlc.MediaPlayer("./tmp/"+filename+"."+fileformat) #changed this to mp3 if you convert
-            player.play()
+            play("./tmp/"+filename+"."+fileformat)#fast hack
+            
         except Exception as e:
             bot.send_message(message.chat.id,"*Error* audio discarded")
     else:
@@ -183,9 +184,9 @@ def handle_docs_voice(message):
         #PLAY
         print('-OK, Playing!')
         bot.edit_message_text("voice played!",chat_id=message.chat.id, message_id=bot_message_id)
-        global player
-        player = vlc.MediaPlayer("./tmp/"+filename+".mp3")
-        player.play()
+        
+        play("./tmp/"+filename+".mp3")
+        
         #send voice
         #voice = open('./tmp/voice.ogg', 'rb')
         #bot.send_voice(message.chat.id, voice)
@@ -210,16 +211,17 @@ def echo_all(message):
         global player
         direct_play=False #direct play is used to play faster from the url without saving on disk, it can create issues btw
         if (direct_play):
-            player = vlc.MediaPlayer(speech.get_urls()[0])
+            file = speech.get_urls()[0]
         else:
             print('-OK, Saving audio...')
             speech.save('tts.mp3')
-            player = vlc.MediaPlayer("./tts.mp3")
+            file = "./tts.mp3"
         print('-OK, Playing!')
-        player.play()
+        play(file)
 
 #main loop
 newpath = r'./tmp'
+os.chdir("/home/SpeakerTelegramBot")
 if not os.path.exists(newpath):
     os.makedirs(newpath)
     print("INFO: temporary folder created\n")
